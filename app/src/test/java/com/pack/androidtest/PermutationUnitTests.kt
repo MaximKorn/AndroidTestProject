@@ -14,7 +14,10 @@ class PermutationUnitTests {
     private lateinit var twoElementsExpectedArray: ArrayList<Array<Int>>
     private lateinit var threeElementsExpectedArray: ArrayList<Array<Int>>
 
-    private fun assertArraysContainEqualPermutations(expectedArray: ArrayList<Array<Int>>, actualArray: ArrayList<Array<Int>>) {
+    private fun assertArraysContainEqualPermutations(
+        expectedArray: ArrayList<Array<Int>>,
+        actualArray: ArrayList<Array<Int>>
+    ) {
         val expectedSize: Int = expectedArray.size
         val actualSize: Int = actualArray.size
         assertEquals(expectedSize, actualSize)
@@ -44,8 +47,10 @@ class PermutationUnitTests {
 
         oneElementExpectedArray = arrayListOf(arrayOf(0))
         twoElementsExpectedArray = arrayListOf(arrayOf(-10, 10), arrayOf(10, -10))
-        threeElementsExpectedArray = arrayListOf(arrayOf(-10, 0, 10), arrayOf(-10, 10, 0), arrayOf(0, -10, 10),
-                                             arrayOf(0, 10, -10), arrayOf(10, 0, -10), arrayOf(10, -10, 0))
+        threeElementsExpectedArray = arrayListOf(
+            arrayOf(-10, 0, 10), arrayOf(-10, 10, 0), arrayOf(0, -10, 10),
+            arrayOf(0, 10, -10), arrayOf(10, 0, -10), arrayOf(10, -10, 0)
+        )
     }
 
     @Test
