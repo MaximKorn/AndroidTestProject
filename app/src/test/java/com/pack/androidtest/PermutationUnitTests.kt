@@ -22,21 +22,19 @@ class PermutationUnitTests {
         val actualSize: Int = actualArray.size
         assertEquals(expectedSize, actualSize)
 
-        var count = 0
-
         for (expEl in expectedArray) {
+            var check = false
             for (actEl in actualArray) {
-                if (assertArrayEquals(expEl, actEl)) {
-                    count++
+                if (expEl.contentEquals(actEl)) {
+                    check = true
+                    break
                 }
             }
+
+            if (!check) {
+                fail("No expected permutation!")
+            }
         }
-
-        assertEquals(expectedSize, count)
-    }
-
-    private fun assertArrayEquals(expectedArray: Array<Int>, actualArray: Array<Int>): Boolean {
-        return expectedArray.contentEquals(actualArray)
     }
 
     @Before
