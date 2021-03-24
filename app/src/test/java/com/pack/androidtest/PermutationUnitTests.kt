@@ -1,18 +1,14 @@
 package com.pack.androidtest
 
-import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PermutationUnitTests {
-
-    private lateinit var oneElementArray: Array<Int>
-    private lateinit var twoElementsArray: Array<Int>
-    private lateinit var threeElementsArray: Array<Int>
-
-    private lateinit var oneElementExpectedArray: ArrayList<Array<Int>>
-    private lateinit var twoElementsExpectedArray: ArrayList<Array<Int>>
-    private lateinit var threeElementsExpectedArray: ArrayList<Array<Int>>
 
     private fun assertArraysContainEqualPermutations(
         expectedArray: ArrayList<Array<Int>>,
@@ -37,35 +33,18 @@ class PermutationUnitTests {
         }
     }
 
-    @Before
-    fun beforeTest() {
-        oneElementArray = arrayOf(0)
-        twoElementsArray = arrayOf(-10, 10)
-        threeElementsArray = arrayOf(-10, 0, 10)
-
-        oneElementExpectedArray = arrayListOf(arrayOf(0))
-        twoElementsExpectedArray = arrayListOf(arrayOf(-10, 10), arrayOf(10, -10))
-        threeElementsExpectedArray = arrayListOf(
-            arrayOf(-10, 0, 10), arrayOf(-10, 10, 0), arrayOf(0, -10, 10),
-            arrayOf(0, 10, -10), arrayOf(10, 0, -10), arrayOf(10, -10, 0)
-        )
+    private fun arrayProvider(): Array<Pair<Array<Int>, ArrayList<Array<Int>>>> {
+        return arrayOf(Pair(arrayOf(0), arrayListOf(arrayOf(0))),
+            Pair(arrayOf(-10, 10), arrayListOf(arrayOf(-10, 10), arrayOf(10, -10))),
+            Pair(arrayOf(-10, 0, 10),arrayListOf(
+                arrayOf(-10, 0, 10), arrayOf(-10, 10, 0), arrayOf(0, -10, 10),
+                arrayOf(0, 10, -10), arrayOf(10, 0, -10), arrayOf(10, -10, 0))))
     }
 
-    @Test
-    fun oneElementArrayTest() {
-        val testArray: ArrayList<Array<Int>> = Permutation().permute(oneElementArray)
-        assertArraysContainEqualPermutations(oneElementExpectedArray, testArray)
-    }
-
-    @Test
-    fun twoElementsArrayTest() {
-        val testArray: ArrayList<Array<Int>> = Permutation().permute(twoElementsArray)
-        assertArraysContainEqualPermutations(twoElementsExpectedArray, testArray)
-    }
-
-    @Test
-    fun threeElementsArrayTest() {
-        val testArray: ArrayList<Array<Int>> = Permutation().permute(threeElementsArray)
-        assertArraysContainEqualPermutations(threeElementsExpectedArray, testArray)
+    @ParameterizedTest
+    @MethodSource("arrayProvider")
+    fun arrayTest(input: Pair<Array<Int>, ArrayList<Array<Int>>>) {
+        val testArray: ArrayList<Array<Int>> = Permutation().permute(input.first)
+        assertArraysContainEqualPermutations(input.second, testArray)
     }
 }
